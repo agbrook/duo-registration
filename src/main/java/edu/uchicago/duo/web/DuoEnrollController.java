@@ -21,6 +21,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import edu.uchicago.duo.domain.DuoAllIntegrationKeys;
 import edu.uchicago.duo.domain.DuoPersonObj;
+import edu.uchicago.duo.security.DuoUserDetails;
 import edu.uchicago.duo.service.DuoObjInterface;
 import edu.uchicago.duo.validator.DeviceExistDuoValidator;
 import static edu.uchicago.duo.web.DuoEnrollController.sortByValue;
@@ -57,6 +58,8 @@ import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -147,11 +150,13 @@ public class DuoEnrollController {
 //		duoperson.setChicagoID(request.getHeader("chicagoID"));
 
 		//Below setting Static Attributes for Local Testing
-		duoperson.setUsername("DuoTestUser");
-		duoperson.setFullName("DUO Testuser");
-		duoperson.setEmail("testuser@duotest.com");
-
-
+		//duoperson.setUsername("DuoTestUser");
+		//duoperson.setFullName("DUO Testuser");
+		//duoperson.setEmail("testuser@duotest.com");
+                DuoUserDetails activeUser = (DuoUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                duoperson.setUsername(activeUser.getUsername());
+                duoperson.setFullName(activeUser.getFullName());
+                duoperson.setEmail(activeUser.getEmail());
 		logger.info("2FA Info - " + getIPForLog(request) + " - " + "Username:" + duoperson.getUsername() + "|SID:" + request.getSession().getId());
 
 		//Setup Default Selection Values for the wizard form

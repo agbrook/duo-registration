@@ -15,13 +15,31 @@
 		<intercept-url pattern="/secure**" access="ROLE_USER" />
 	</http>
  
-		<authentication-manager>
-			<authentication-provider>
-				<user-service>
-					<user name="DuoTestUser" password="123456" authorities="ROLE_USER" />
-				</user-service>
-			</authentication-provider>
-		</authentication-manager>
+	<!--<authentication-manager>
+            <authentication-provider>
+		<user-service>
+                    <user name="DuoTestUser" password="123456" authorities="ROLE_USER" />
+		</user-service>
+            </authentication-provider>
+	</authentication-manager> -->
+
+        <!--Spring Security-Simple Form Base Login, END-->
+        <!-- Spring Security - AD LDAP Base Login BEGIN-->
+        <authentication-manager>
+            <authentication-provider ref='adAuthenticationProvider' />
+        </authentication-manager>
+
+        <beans:bean id="adAuthenticationProvider"
+            class="org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider">
+            <beans:constructor-arg value="DOMAIN" />
+            <beans:constructor-arg value="ldap://DOMAIN CONTROLLER/" />
+            <beans:property name="convertSubErrorCodesToExceptions" value="true" />
+            <beans:property name="useAuthenticationRequestCredentials" value="true"/>
+            <beans:property name="userDetailsContextMapper" ref="DUOUserDetailsContextMapper" />
+            <beans:property name="authoritiesMapper" ref="DUOGrantedAuthoritiesMapper"/>
+        </beans:bean>
+        <beans:bean id="DUOUserDetailsContextMapper" class="edu.uchicago.duo.security.DuoUserDetailsContextMapper"/>
+        <beans:bean id="DUOGrantedAuthoritiesMapper" class="edu.uchicago.duo.security.DUOGrantedAUthoritiesMapper"/>
 	
 	<!--Spring Security-Simple Form Base Login, END-->
 	
