@@ -41,17 +41,18 @@ public class DUOGrantedAUthoritiesMapper implements GrantedAuthoritiesMapper {
     public Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> authorities) {
         Set<DUOAuthority> roles;
         roles = EnumSet.noneOf(DUOAuthority.class);
-        boolean ServiceAccount = false;
+        boolean UserAccount = true;
 
         for (GrantedAuthority a: authorities) {
             if ("BSD$ ALL Service Accounts".equals(a.getAuthority())) {
-                ServiceAccount = true;
+                UserAccount = false;
+            } else {
             }
         }
-        if(ServiceAccount) {
-            roles.add(DUOAuthority.ROLE_ANONYMOUS);
-        } else {
+        if(UserAccount) {
             roles.add(DUOAuthority.ROLE_USER);
+        } else {
+            roles.add(DUOAuthority.ROLE_ANONYMOUS);
         }
 
         return roles;
