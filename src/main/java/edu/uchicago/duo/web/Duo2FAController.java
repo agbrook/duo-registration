@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * Author: Daniel Yu <danielyu@uchicago.edu>
+ * Author: Andy Brook <abrook@bsd.uchicago.edu>
  */
 package edu.uchicago.duo.web;
 
