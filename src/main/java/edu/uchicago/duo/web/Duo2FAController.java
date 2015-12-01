@@ -91,6 +91,11 @@ public class Duo2FAController {
 		userId = duoUsrService.getObjByParam(duoperson.getUsername(), null, "userId");
 		if (userId == null) {
                     logger.info("2FA Info - Username:" + duoperson.getUsername() + " has not yet register with DUO!");
+                    List<GrantedAuthority> authorities = new ArrayList<>(auth.getAuthorities());
+                    authorities.add(DUOGrantedAuthoritiesMapper.DUOAuthority.ROLE_DUOAUTH);
+                    Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(),auth.getCredentials(),authorities);
+                    SecurityContextHolder.getContext().setAuthentication(newAuth);
+                    logger.info("2FA Info - Adding ROLE_DUOAUTH to " + duoperson.getUsername());
                     return "redirect:/secure";		//return form view
 		}
 		logger.debug("2FA Debug - "+"Assigned UserID via DUO API Query");
