@@ -22,21 +22,23 @@ import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 
-enum DUOAuthority implements GrantedAuthority {
-    ROLE_ANONYMOUS,
-    ROLE_USER;
 
-    @Override
-    public String getAuthority() {
-        return name();
-    }
-}
 /**
  *
  * @author abrook
  */
-public class DUOGrantedAUthoritiesMapper implements GrantedAuthoritiesMapper {
+public class DUOGrantedAuthoritiesMapper implements GrantedAuthoritiesMapper {
+    public enum DUOAuthority implements GrantedAuthority {
+        ROLE_ANONYMOUS,
+        ROLE_USER,
+        ROLE_DUOAUTH;
 
+        @Override
+        public String getAuthority() {
+            return name();
+        }
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> authorities) {
         Set<DUOAuthority> roles;

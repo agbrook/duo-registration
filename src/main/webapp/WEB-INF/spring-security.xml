@@ -10,16 +10,28 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	
-	<!--Spring Security-Simple Form Base Login, BEGIN-->
+	<!-- Spring-Simple DUO authentication, BEGIN-->
+        <!-- <http auto-config="true" >
+            
+            
+        </http> -->
+        <!-- Spring-Simple DUO authentication, END-->
+        <!--Spring Security-Simple Form Base Login, BEGIN-->
 	<http auto-config="true">
-		<intercept-url pattern="/secure**" access="ROLE_USER" />
-                <form-login
-                    login-page="/login"
-                    authentication-failure-url="/login?error"
-                    login-processing-url="/j_spring_security_check"
-                    username-parameter="username"
-                    password-parameter="password" />
-                <logout logout-url="/logout" logout-success-url="/login?logout"  />
+            <intercept-url pattern="/secure/enrollment" access="ROLE_DUOAUTH" />
+            <intercept-url pattern="/secure/devicemgmt" access="ROLE_DUOAUTH" />
+            <intercept-url pattern="/secure**" access="ROLE_USER" />
+                
+            <form-login
+                login-page="/login"
+                authentication-failure-url="/login?error"
+                login-processing-url="/j_spring_security_check"
+                username-parameter="username"
+                password-parameter="password" 
+                default-target-url="/secure/2fa" 
+                always-use-default-target="true"
+            />
+            <logout logout-url="/logout" logout-success-url="/login?logout"  />
 	</http>
  
 	<!--<authentication-manager>
@@ -38,15 +50,15 @@
 
         <beans:bean id="adAuthenticationProvider"
             class="org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAuthenticationProvider">
-            <beans:constructor-arg value="DOMAIN" />
-            <beans:constructor-arg value="ldap://DOMAIN CONTROLLER/" />
+            <beans:constructor-arg value="ad.example.com" />
+            <beans:constructor-arg value="ldap://dc01.ad.example.com/" />
             <beans:property name="convertSubErrorCodesToExceptions" value="true" />
             <beans:property name="useAuthenticationRequestCredentials" value="true"/>
             <beans:property name="userDetailsContextMapper" ref="DUOUserDetailsContextMapper" />
             <beans:property name="authoritiesMapper" ref="DUOGrantedAuthoritiesMapper"/>
         </beans:bean>
         <beans:bean id="DUOUserDetailsContextMapper" class="edu.uchicago.duo.security.DuoUserDetailsContextMapper"/>
-        <beans:bean id="DUOGrantedAuthoritiesMapper" class="edu.uchicago.duo.security.DUOGrantedAUthoritiesMapper"/>
+        <beans:bean id="DUOGrantedAuthoritiesMapper" class="edu.uchicago.duo.security.DUOGrantedAuthoritiesMapper"/>
 	
 	<!--Spring Security-Simple Form Base Login, END-->
 	

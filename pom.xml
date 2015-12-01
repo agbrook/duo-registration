@@ -127,7 +127,12 @@
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-                <dependency>
+	 <dependency>
+	  <groupId>com.duosecurity</groupId>
+	  <artifactId>duoweb</artifactId>
+	  <version>DuoWeb-1.1</version>
+	 </dependency>
+	 <dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>
