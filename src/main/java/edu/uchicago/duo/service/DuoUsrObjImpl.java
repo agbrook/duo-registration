@@ -23,12 +23,8 @@ import edu.uchicago.duo.domain.DuoPhone;
 import edu.uchicago.duo.domain.DuoTablet;
 import edu.uchicago.duo.domain.DuoToken;
 import edu.uchicago.duo.web.DuoEnrollController;
-import edu.uchicago.grouperabi.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -170,77 +166,32 @@ public class DuoUsrObjImpl implements DuoObjInterface {
 	@Override
 	public String objActionById(String id, String action) {
 
-		Group targetgroup = null;
 		Boolean memberExist = false;
 		String result = null;
-		GrouperQueryEngine gqe;
-		ArrayList<Group> groups;
 
 		switch (action) {
 			case "SearchDuoForce":
 			case "AddUserToDuoForce":
 			case "RemoveUserFromDuoForce":
-				gqe = new GrouperQueryEngine("uc:applications:shibboleth:MCB");
-				groups = gqe.getStem().getGroups();
-				for (Group aGroup : groups) {
-					if (aGroup.getName().endsWith("force-duo")) {
-						targetgroup = aGroup;
-					}
-				}
 				break;
 			case "SearchRegistered":
 			case "AddUserToRegistered":
 			case "RemoveUserFromRegistered":
-				gqe = new GrouperQueryEngine("uc:applications:2fa");
-				groups = gqe.getStem().getGroups();
-				for (Group aGroup : groups) {
-					if (aGroup.getName().endsWith("registered")) {
-						targetgroup = aGroup;
-					}
-				}
 				break;
 		}
 
-
-
-//		GrouperQueryEngine gqe = new GrouperQueryEngine("uc:applications:shibboleth:MCB");
-//		ArrayList<Group> groups = gqe.getStem().getGroups();
-//		for (Group aGroup : groups) {
-//			if (aGroup.getName().endsWith("force-duo")) {
-//				forceDuo = aGroup;
-//			}
-//		}
-
 		switch (action) {
 			case "SearchDuoForce":
 			case "SearchRegistered":
-				try {
-					memberExist = targetgroup.hasMember(new Subject(id));
-				} catch (GrouperABIException ex) {
-				}
-				if (memberExist) {
-					result = "Y";
-				} else {
-					result = "N";
-				}
+                                result = "Y";
 				break;
 			case "AddUserToDuoForce":
 			case "AddUserToRegistered":
-				result = "N";
-				try {
-					targetgroup.addMember(new Subject(id), new Subject(id));
-					result = "Y";
-				} catch (GrouperABIException ex) {
-				}
+                                result = "Y";
 				break;
 			case "RemoveUserFromDuoForce":
 			case "RemoveUserFromRegistered":
-				result = "N";
-				try {
-					targetgroup.removeMember(new Subject(id), new Subject(id));
-					result = "Y";
-				} catch (GrouperABIException ex) {
-				}
+                                result = "Y";
 				break;
 
 		}

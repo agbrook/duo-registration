@@ -3,5 +3,6 @@ duo.admin.ikey=
 duo.admin.skey=
 duo.auth.ikey=
 duo.auth.skey=
+duo.auth.akey=
 duo.verify.ikey=
 duo.verify.skey=

@@ -22,7 +22,8 @@
         <h1>DUO Registration</h1>
 		
 		<h3>Welcome!</h3>
-		User's Fullname: ${DuoPerson.fullName} <br><br>
+                User's username: ${DuoPerson.username} <br>
+		User's Fullname: ${DuoPerson.fullName} <br>
 		User's Email Address: ${DuoPerson.email} <br>
 
 		<br>

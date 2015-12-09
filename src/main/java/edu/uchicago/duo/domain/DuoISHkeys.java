@@ -22,6 +22,7 @@ public class DuoISHkeys {
 
 	private String ikey;
 	private String skey;
+        private String akey;
 	private String hostkey;
 
 	public String getIkey() {
@@ -39,6 +40,14 @@ public class DuoISHkeys {
 	public void setSkey(String skey) {
 		this.skey = skey;
 	}
+        
+        public String getAkey() {
+                return akey;
+        }
+        
+        public void setAkey(String akey) {
+                this.akey = akey;
+        }
 
 	public String getHostkey() {
 		return hostkey;

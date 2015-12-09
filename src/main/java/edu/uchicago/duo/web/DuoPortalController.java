@@ -18,6 +18,7 @@
 package edu.uchicago.duo.web;
 
 import edu.uchicago.duo.domain.DuoPersonObj;
+import edu.uchicago.duo.security.DuoUserDetails;
 import edu.uchicago.duo.service.DuoObjInterface;
 import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -89,10 +92,13 @@ public class DuoPortalController {
 //		duoperson.setChicagoID(request.getHeader("chicagoID"));
 
 		//Below setting Static Attributes for Local Testing
-		duoperson.setUsername("DuoTestUser");
-		duoperson.setFullName("DUO Testuser");
-		duoperson.setEmail("testuser@duotest.com");
-		
+		//duoperson.setUsername("DuoTestUser");
+		//duoperson.setFullName("DUO Testuser");
+		//duoperson.setEmail("testuser@duotest.com");
+                DuoUserDetails activeUser = (DuoUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                duoperson.setUsername(activeUser.getUsername());
+                duoperson.setFullName(activeUser.getFullName());
+                duoperson.setEmail(activeUser.getEmail());
 		logger.info("2FA Info - "+getIPForLog(request) + " - " + "Username:" + duoperson.getUsername() + "|SID:" + request.getSession().getId());
 
 		if (session.getAttribute("duoUserId") == null) {

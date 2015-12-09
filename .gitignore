@@ -1,4 +1,4 @@
 DuoKeys.properties
-
+*.orig
 target/
 nb-configuration.xml

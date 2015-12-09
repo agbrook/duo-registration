@@ -33,6 +33,7 @@
 	<bean id="duoauthISkeys" class="edu.uchicago.duo.domain.DuoISHkeys" parent="duohostkey">
 		<property name="ikey" value="${duo.auth.ikey}" />
 		<property name="skey" value="${duo.auth.skey}" />
+                <property name="akey" value="${duo.auth.akey}" />
 	</bean>
 	
 	<bean id="duoverifyISkeys" class="edu.uchicago.duo.domain.DuoISHkeys" parent="duohostkey">
