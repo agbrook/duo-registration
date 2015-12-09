@@ -10,12 +10,6 @@
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 	
-	<!-- Spring-Simple DUO authentication, BEGIN-->
-        <!-- <http auto-config="true" >
-            
-            
-        </http> -->
-        <!-- Spring-Simple DUO authentication, END-->
         <!--Spring Security-Simple Form Base Login, BEGIN-->
 	<http auto-config="true">
             <intercept-url pattern="/secure/enrollment" access="ROLE_DUOAUTH" />
