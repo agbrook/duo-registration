@@ -198,7 +198,7 @@ public class DuoEnrollController {
 			return "redirect:/secure/enrollment";
 		}
 
-		if (nextPage == 2) {
+                else if (nextPage == 2) {
 			String userId = duoUsrService.getObjByParam(duoperson.getUsername(), null, "userId");
 			duoperson.setUser_id(userId);
 
@@ -210,18 +210,26 @@ public class DuoEnrollController {
 		}
 
 		//Redirect Depends on the type of Device that is being enroll
-		if (nextPage == 3) {
+                else if (nextPage == 3) {
 			switch (duoperson.getChoosenDevice()) {
 				case "tablet":
 					duoperson.setDeviceOS(null);
 					return "DuoEnrollTablet";
 				case "token":
 					return "DuoEnrollToken";
-			}
+                                case "mobile":
+                                        break;
+                                case "landline":
+                                        break;
+                                default:
+                                        //An unknown device has been passed in
+                                        logger.error("2FA Errologger.r - " + getIPForLog(request) + " - " + duoperson.getUsername() + " Attempted to create an unknown type of device." );
+                                        return "redirect:/secure";
+                        }
 
 		}
 
-		if (nextPage == 31) {
+                else if (nextPage == 31) {
 			validator.validate(duoperson, result, DuoPersonObj.TabletInfoValidation.class);
 			if (result.hasErrors()) {
 				return "DuoEnrollTablet";
@@ -229,7 +237,7 @@ public class DuoEnrollController {
 			return "DuoEnrollStep5";
 		}
 
-		if (nextPage == 32) {
+                else if (nextPage == 32) {
 			validator.validate(duoperson, result, DuoPersonObj.TokenInfoValidation.class);
 			if (result.hasErrors()) {
 				return "DuoEnrollToken";
@@ -239,7 +247,7 @@ public class DuoEnrollController {
 
 
 		//Validation on Submission of Phone Number, to make sure Phone Number has not been registered or belong to someone else
-		if (nextPage == 4) {
+                else if (nextPage == 4) {
 
 			validator.validate(duoperson, result, DuoPersonObj.PhoneNumberValidation.class);
 			if (result.hasErrors()) {
@@ -256,7 +264,7 @@ public class DuoEnrollController {
 			}
 		}
 
-		if (nextPage == 5) {
+                else if (nextPage == 5) {
 			if (duoperson.getDeviceOS().equals("unknown")) {
 				return "DuoPhoneVerify";
 			}
@@ -264,7 +272,7 @@ public class DuoEnrollController {
 
 
 		//Check on Activation Status on DUO Mobile App, don't let user move on until confirm the device has been activated
-		if (nextPage == 6) {
+                else if (nextPage == 6) {
 			String activeStatus;
 			activeStatus = duoPhoneService.getObjStatusById(duoperson.getPhone_id());
 
@@ -273,7 +281,7 @@ public class DuoEnrollController {
 					String qrCode = duoPhoneService.objActionById(duoperson.getPhone_id(), "qrCode");
 					duoperson.setQRcode(qrCode);
 				}
-				logger.error("2FA Error - " + getIPForLog(request) + " - " + duoperson.getUsername() + "|DeviceID: " + duoperson.getPhone_id() + " NOT ACTIVATED");
+				logger.error("2FA Errologger.r - " + getIPForLog(request) + " - " + duoperson.getUsername() + "|DeviceID: " + duoperson.getPhone_id() + " NOT ACTIVATED");
 				model.put("deviceNotActive", true);
 				return "DuoActivationQR";
 			}
@@ -282,6 +290,11 @@ public class DuoEnrollController {
 					+ " Tablet Name:" + duoperson.getTabletName());
 			return "DuoEnrollSuccess";
 		}
+                // nextPage isn't set correctly Not sure where to go, so redirect back to /secure
+                else {
+                        logger.error("2FA Errologger.r - " + getIPForLog(request) + " - " + duoperson.getUsername() + "|nextPage entered isn't recognized. Sending back to main page.");
+                        return "redirect:/secure";
+                }
 
 		//Traverse Multipage Form, DuoEnrollStep*.jsp
 		return "DuoEnrollStep" + nextPage;
