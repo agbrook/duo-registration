@@ -52,6 +52,14 @@
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
 	</bean>
 
+        <!-- CSRF Handler -->
+        <!-- Data Value Processor -->
+	<bean name="requestDataValueProcessor" class="edu.uchicago.duo.web.csrf.CSRFRequestDataValueProcessor"/>
+
+	<!-- Interceptor handlers -->
+        <mvc:interceptors>
+            <bean class="edu.uchicago.duo.web.csrf.CSRFHandlerInterceptor"/>
+        </mvc:interceptors>
 	<!--
 	The index controller.
 	-->
