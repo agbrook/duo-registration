@@ -9,7 +9,7 @@
 	<body onload='document.f.j_username.focus();'>
 			<h1 class="page-title">2Factor Authentication Login</h1>
 			<h2>Login with BSDAD Username and Password</h2>
-			<form name='loginForm' action="<spring:url value='/j_spring_security_check' />" method='POST'>
+			<form:form name='loginForm' action="${pageContext.request.contextPath}/j_spring_security_check" method='POST'>
 				<fieldset>
 					<c:if test="${not empty error}">
 						<div class="alert alert-error">
@@ -27,6 +27,6 @@
 					<input type="password" id="password" name="password"  autocomplete="off"/>    
 					<button type="submit" class="btn">Log in</button>
 				</fieldset>
-			</form>
+			</form:form>
 	</body>
 </html>	
