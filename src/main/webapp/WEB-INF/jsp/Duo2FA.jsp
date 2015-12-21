@@ -4,7 +4,7 @@
 <!doctype html>
 	<head>
 		<meta charset="iso-8859-1">
-		<title>2Factor Authentication | The University of Chicago</title>
+		<title>2Factor Authentication</title>
 		<script src="<spring:url value='/resources/js/libs/modernizr.js'/>"></script>
 		<script src="<spring:url value='/resources/js/Duo-Web-v2.min.js'/>"></script>
 	</head>
