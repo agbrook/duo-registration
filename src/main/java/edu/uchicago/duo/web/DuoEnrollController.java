@@ -223,7 +223,7 @@ public class DuoEnrollController {
                                         break;
                                 default:
                                         //An unknown device has been passed in
-                                        logger.error("2FA Error - " + getIPForLog(request) + " - " + duoperson.getUsername() + " Attempted to create an unknown type of device." );
+                                        logger.error("2FA Error - " + getIPForLog(request) + " - " + duoperson.getUsername() + " Attempted to create an unknown type of device. " + duoperson.getChoosenDevice());
                                         return "redirect:/secure";
                         }
 
